@@ -7,28 +7,59 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+        
         body {
             font-family: 'Noto Sans JP', sans-serif;
-            -webkit-print-color-adjust: exact; /* Chrome, Safari */
-            color-adjust: exact; /* Firefox */
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
-        /* A4用紙の幅に近づけるためのコンテナ設定 */
+
         .container {
-            max-width: 768px; /* A4幅に近いサイズに調整 */
+            max-width: 768px;
         }
-        /* 印刷時に影や余分な余白を消す設定 */
+
+        /* 印刷用スタイル設定 */
         @media print {
+            @page {
+                size: A4;
+                margin: 15mm; /* 上下左右の余白を適度に確保 */
+            }
+
             body {
-                background-color: #fff;
+                background-color: #fff !important;
+                margin: 0;
+                padding: 0;
+                width: 100%;
             }
+
+            .container {
+                max-width: none !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            /* 印刷時に隠す要素（もしあればここに追加） */
             .no-print {
-                display: none;
+                display: none !important;
             }
-            .print-shadow-none {
-                box-shadow: none;
+
+            /* ボックス内の要素がページまたぎで切れないようにする */
+            section, .grid, .bg-red-50, .bg-green-50, .bg-orange-50 {
+                break-inside: avoid;
             }
+
+            /* リンクのURL表示などを消す（必要に応じて） */
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+            
+            /* 背景色やボーダーをくっきり印刷するための強制適用 */
             .print-border {
-                border: 1px solid #e5e7eb;
+                border: 1px solid #ccc !important;
             }
         }
     </style>
@@ -49,17 +80,15 @@
                     夜間の急な体調不良や怪我の際に、飼い主様と動物たちが少しでも安心して過ごせるよう、スタッフ一同努めてまいります。
                 </p>
 
-                <!-- Clinic Hours -->
                 <section class="mb-6 text-center bg-blue-50 p-4 rounded-lg print-border">
                     <h2 class="text-xl font-bold text-blue-800 mb-2">夜間診療のご案内</h2>
                     <p class="text-2xl md:text-3xl font-bold text-blue-700">18:00 〜 22:00</p>
                     <p class="mt-1 text-sm text-gray-600">※日中の通常診療とは別の体制となります。</p>
                 </section>
 
-                <!-- How to Visit -->
                 <section class="mb-6">
                     <h2 class="text-lg font-bold text-blue-800 border-b-2 border-blue-200 pb-2 mb-4">ご来院の前に：必ずお電話ください</h2>
-                    <div class="bg-red-50 border-l-4 border-red-500 text-red-800 p-4 rounded-r-lg">
+                    <div class="bg-red-50 border-l-4 border-red-500 text-red-800 p-4 rounded-r-lg print-border">
                         <p class="font-bold text-base md:text-lg mb-2">夜間診療は、原則として【お電話での事前連絡】をお願いしております。</p>
                         <p class="mb-3 text-sm md:text-base">
                             症状を詳しくお伺いし、緊急性の判断（トリアージ）や応急処置のアドバイスをさせていただきます。
@@ -72,7 +101,6 @@
                     </div>
                 </section>
 
-                <!-- Services -->
                 <section class="mb-6">
                     <h2 class="text-lg font-bold text-blue-800 border-b-2 border-blue-200 pb-2 mb-4">夜間診療の目的と対応範囲</h2>
                     <p class="mb-4 text-sm md:text-base text-gray-700">
@@ -100,15 +128,15 @@
                                 <li>日常ケア（爪切り、肛門腺絞り）</li>
                                 <li>慢性疾患の定期的なお薬の処方</li>
                                 <li>緊急性のないご相談</li>
+                                <li class="font-bold text-red-700">入院管理（人員、システムの都合上）</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="mt-4 bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-3 rounded-r-lg text-sm" role="alert">
+                    <div class="mt-4 bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-3 rounded-r-lg text-sm print-border" role="alert">
                         <p><strong class="font-semibold">【他院へのご紹介について】</strong> 症状や状況に応じて、人員や設備の都合により「静岡市夜間救急動物病院」へご紹介させていただく場合がございます。</p>
                     </div>
                 </section>
                 
-                <!-- Target Animals -->
                 <section class="mb-6">
                     <h2 class="text-lg font-bold text-blue-800 border-b-2 border-blue-200 pb-2 mb-4">診療対象の動物</h2>
                     <div class="bg-gray-50 p-4 rounded-lg text-sm md:text-base print-border">
@@ -119,13 +147,12 @@
                             <li>カメ、トカゲ、ヘビなどの爬虫類（※毒を持つ種類は除きます）</li>
                             <li>その他、お電話にてご相談ください。</li>
                         </ul>
-                         <div class="mt-3 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-3 rounded-r-lg text-sm" role="alert">
+                         <div class="mt-3 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-3 rounded-r-lg text-sm print-border" role="alert">
                             <p><strong class="font-semibold">【ご注意】</strong> 大型犬や動物種・症状によっては安全な処置が困難な場合があり、お電話の段階で慎重に判断させていただきます。</p>
                         </div>
                     </div>
                 </section>
                 
-                <!-- Payment -->
                 <section>
                      <h2 class="text-lg font-bold text-blue-800 border-b-2 border-blue-200 pb-2 mb-4">診療費について</h2>
                      <div class="space-y-2 text-sm md:text-base text-gray-800">
